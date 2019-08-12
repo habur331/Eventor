@@ -1,0 +1,25 @@
+.main_part{
+	height:100%;
+	width:40%;
+	color:green;
+	float: left;
+}
+
+.map_part{
+    float:left;
+	height:100%;
+}
+
+html, body {
+	height: 100%;
+}
+
+a.ya_debil {
+    color: white !important;
+    text-decoration: none;
+    font-size: 1.6rem;
+}
+
+a.ya_debil:hover {
+	text-decoration: none !important;
+}
