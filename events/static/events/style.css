@@ -1,17 +1,12 @@
 .main_part{
 	height:100%;
-	width:40%;
+	width:38%;
 	color:green;
 	float: left;
 }
 
-.map_part{
-    float:left;
-	height:100%;
-}
-
 html, body {
-	height: 100%;
+	width: 100%; height: 100%; padding: 0; margin: 0;
 }
 
 a.title {
@@ -22,4 +17,17 @@ a.title {
 
 a.title:hover {
 	text-decoration: none !important;
+}
+#map {
+	width: 62%; height: 100%; padding: 0; margin: 0; float: left;
+}
+a {
+	color: #04b; /* Цвет ссылки */
+	text-decoration: none; /* Убираем подчеркивание у ссылок */
+}
+a:visited {
+	color: #04b; /* Цвет посещённой ссылки */
+}
+a:hover {
+	color: #f50000; /* Цвет ссылки при наведении на нее курсора мыши */
 }
