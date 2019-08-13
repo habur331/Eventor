@@ -1,7 +1,27 @@
 <br>
 {% for event in event_list %}
-	<div>
-		<a href="" style="text-decoration:none; color:black; padding:0 1px;">{{ event.event_text }} <br> {{ event.event_address }}<br> {{ event.event_date }}</a>
-		<br><br><br>
+	<div style="background-color:#f5f9ff; padding:8px">
+		<button style="float:right;" class="btn btn-info delete" id="{{ event.pk }}" title="Удалить событие">x</button>
+		<a href="" style="text-decoration:none; color:black; padding:0 1px;" title="Подробная информация">{{ event.event_text }} <br> {{ event.event_address }}<br> {{ event.event_date }}</a>
 	</div>
+	<br>
+
 {% endfor %}
+<script>
+		$('.delete').click(function(){
+			var pk = $(this).attr('id');
+			var csrftoken = getCookie('csrftoken');
+			alert(pk);
+			$.ajax({
+				url:'/',
+				data:{
+					'pk':pk,
+					'csrfmiddlewaretoken':csrftoken,
+				},
+				type:"post",
+				success: function(data) {
+					$('#events').html(data);
+				},
+			});
+		})
+	</script>

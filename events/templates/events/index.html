@@ -16,11 +16,11 @@
 				<img src="" width="30" height="30" class="d-inline-block align-top" alt="">
 				EVENTOR
 			</a>
-			<button class="btn btn-info">+</button>
+			<button class="btn btn-info btn-lg" title="Добавить событие" id="create_btn" data-toggle="modal" data-target="#create-event-dialog">+</button>
 		</nav>
-		<div class="row" style="margin: 0px;  height: 92%; width:100%;">
+		<div class="row" style="margin: 0px;  height: 92%; width:100%; overflow: auto">
 			<div class="col-5"><br>
-				<button class="btn btn-info" style="width: 100%" id="search_btn">Поиск</button><br><br>
+				<button class="btn btn-info" style="width: 100%" id="search_btn" title="Поиск по заданным фильтрам">Поиск</button><br><br>
 				<select class="selectpicker" data-live-search="true" multiple title="Выберите город" name="city" id="city">
 					{% for city in cities %}
 						<option value="{{ city }}">{{ city }}</option>
@@ -37,13 +37,45 @@
 			<div class="col-7" style="background-color: #ebeff5;" id="events">
 				<br>
 				{% for event in events %}
-					<a href="" style="text-decoration:none; color:black; padding:0 1px;">{{ event.event_text }} <br> {{ event.event_address }}<br> {{ event.event_date }}</a>
-					<br><br><br>
+				<div style="background-color:#f5f9ff; padding:8px">
+					{% if request.user.is_superuser%}<button style="float:right;" class="btn btn-info delete" id="{{ event.pk }}" title="Удалить событие">x</button>{% endif %}
+					<a href="" style="text-decoration:none; color:black; padding:0 1px;" title="Подробная информация">{{ event.event_text }} <br> {{ event.event_address }}<br> {{ event.event_date }}</a>
+				</div>
+				<br>
 				{% endfor %}
 			</div>
 		</div>
 	</div>
 	<div class="map_part" id="map"></div>
+	<div id="create-event-dialog" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Создать событие</h4>
+				</div>
+				<div class="modal-body">
+					<form method="post" action="">
+						{% csrf_token %}
+						<strong>{{ form.event_city.label_tag }}</strong><br>
+							{{ form.event_city }}
+						<strong>{{ form.event_address.label_tag }}</strong><br>
+							{{ form.event_address }}
+						<strong>{{ form.event_name.label_tag }}</strong><br>
+							{{ form.event_name }}
+						 <strong> {{form.event_theme.label_tag}} </strong> <br>
+							{{ form.event_theme }}
+						<strong>{{ form.event_text.label_tag }}</strong><br>
+							{{ form.event_text }}
+						<strong>{{ form.event_datetime.label_tag }}</strong><br>
+							{{ form.event_datetime }} <br>
+						<button class="btn btn-info" style="width: 100%">Создать</button>
+					</form>
+				</div>
+				<div class="modal-footer"><button class="btn btn-default" type="button" data-dismiss="modal">Закрыть</button></div>
+			</div>
+		</div>
+	</div>
+
 
     <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
 	<script src="https://api-maps.yandex.ru/2.1/?lang=ru-RU&amp;apikey=bbbd2d6b-5a52-418a-9cbb-1a4af3d8c88f" type="text/javascript"></script>
@@ -99,5 +131,37 @@
 			});
 		})
 	</script>
+
+	<script>
+		$('.delete').click(function(){
+			var pk = $(this).attr('id');
+			var csrftoken = getCookie('csrftoken');
+			$.ajax({
+				url:'/',
+				data:{
+					'pk':pk,
+					'csrfmiddlewaretoken':csrftoken,
+				},
+				type:"post",
+				success: function(data) {
+					$('#events').html(data);
+				},
+			});
+		})
+	</script>
+
+	<script>
+		$('#create_btn').click(function(){
+			$('.js-overlay-campaign').fadeIn();
+		    $('.js-overlay-campaign').addClass('disabled');
+		    var el = '<input name="point" value="tlt"></input>';
+		    $('.f').append(el);
+		});
+
+		$('.js-close-campaign').click(function() {
+		    $('.js-overlay-campaign').fadeOut();
+		});
+	</script>
+
 </body>
 </html>
