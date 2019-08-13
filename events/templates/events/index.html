@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>Eventor</title>
         {% load static %}
+	    <link rel="shortcut icon" href="{% static 'events/eventor_logo.png' %}" type="image/png">
         <link rel="stylesheet" href="{% static 'events/style.css' %}">
         <link rel="stylesheet" href="{% static 'events/bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'events/bootstrap-select.css' %}">
@@ -11,16 +12,16 @@
     </head>
 <body>
 	<div class="main_part">
-		<nav class="navbar navbar-light" style="background-color: #133678; color: white">
+		<nav class="navbar navbar-light" style="background-color: #b71c1c; color: white">
 			<a class="title" href="">
-				<img src="" width="30" height="30" class="d-inline-block align-top" alt="">
-				EVENTOR
+				<img src="{% static 'events/eventor_logo.png' %}" width="40" height="40" class="d-inline-block align-top" alt="">
+				VENTOR
 			</a>
-			<button class="btn btn-info btn-lg" title="Добавить событие" id="create_btn" data-toggle="modal" data-target="#create-event-dialog">+</button>
+			<button class="btn btn-info btn-lg" title="Добавить событие" id="create_btn" style="background-color: #FFCA28; !important; border:0px!important;" data-toggle="modal" data-target="#create-event-dialog">+</button>
 		</nav>
 		<div class="row" style="margin: 0px;  height: 92%; width:100%; overflow: auto">
 			<div class="col-5"><br>
-				<button class="btn btn-info" style="width: 100%" id="search_btn" title="Поиск по заданным фильтрам">Поиск</button><br><br>
+				<button class="btn btn-info" style="width: 100%; background-color: #FFCA28; !important; border:0px!important;" id="search_btn" title="Поиск по заданным фильтрам" >Поиск</button><br><br>
 				<select class="selectpicker" data-live-search="true" multiple title="Выберите город" name="city" id="city">
 					{% for city in cities %}
 						<option value="{{ city }}">{{ city }}</option>
@@ -34,11 +35,11 @@
 				<input type="date" class="form-control" name="date_start" id="date_start"><br>
 				<input type="date" class="form-control" name="date_end" id="date_end"><br>
 			</div>
-			<div class="col-7" style="background-color: #ebeff5;" id="events">
+			<div class="col-7" style="background-color: #0;" id="events">
 				<br>
 				{% for event in events %}
 				<div style="background-color:#f5f9ff; padding:8px">
-					{% if request.user.is_superuser%}<button style="float:right;" class="btn btn-info delete" id="{{ event.pk }}" title="Удалить событие">x</button>{% endif %}
+					{% if request.user.is_superuser%}<button style="float:right; background-color: #FFCA28; !important; border:0px!important;" class="btn btn-info delete" id="{{ event.pk }}" title="Удалить событие">x</button>{% endif %}
 					<a href="" style="text-decoration:none; color:black; padding:0 1px;" title="Подробная информация">{{ event.event_name }} <br> {{ event.event_text }} <br> {{ event.event_address }}<br> {{ event.event_date }}</a>
 				</div>
 				<br>
@@ -68,7 +69,7 @@
 							{{ form.event_text }}
 						<strong>{{ form.event_datetime.label_tag }}</strong><br>
 							{{ form.event_datetime }} <br>
-						<button class="btn btn-info" style="width: 100%">Создать</button>
+						<button class="btn btn-info" style="width: 100%; background-color: #FFCA28; !important; border:0px!important;">Создать</button>
 					</form>
 				</div>
 				<div class="modal-footer"><button class="btn btn-default" type="button" data-dismiss="modal">Закрыть</button></div>
