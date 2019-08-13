@@ -1,5 +1,4 @@
 ymaps.ready(init);
-
 function init () {
     var myMap = new ymaps.Map('map', {
             center: [55.76, 37.64],
@@ -14,17 +13,10 @@ function init () {
             gridSize: 32,
             clusterDisableClickZoom: true
         });
-
-    // Чтобы задать опции одиночным объектам и кластерам,
-    // обратимся к дочерним коллекциям ObjectManager.
-    objectManager.objects.options.set('preset', 'islands#greenDotIcon');
-    objectManager.clusters.options.set('preset', 'islands#greenClusterIcons');
     myMap.geoObjects.add(objectManager);
-
     $.ajax({
         url: "http://localhost:8000/static/events/data.json"
     }).done(function(data) {
         objectManager.add(data);
     });
-
 }
