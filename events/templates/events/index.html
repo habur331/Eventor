@@ -39,7 +39,7 @@
 				{% for event in events %}
 				<div style="background-color:#f5f9ff; padding:8px">
 					{% if request.user.is_superuser%}<button style="float:right;" class="btn btn-info delete" id="{{ event.pk }}" title="Удалить событие">x</button>{% endif %}
-					<a href="" style="text-decoration:none; color:black; padding:0 1px;" title="Подробная информация">{{ event.event_text }} <br> {{ event.event_address }}<br> {{ event.event_date }}</a>
+					<a href="" style="text-decoration:none; color:black; padding:0 1px;" title="Подробная информация">{{ event.event_name }} <br> {{ event.event_text }} <br> {{ event.event_address }}<br> {{ event.event_date }}</a>
 				</div>
 				<br>
 				{% endfor %}

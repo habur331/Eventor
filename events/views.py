@@ -1,3 +1,4 @@
+from django.contrib.gis.geoip2 import GeoIP2
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.urls import reverse
@@ -33,6 +34,8 @@ def index(request):
 			event_list = Event.objects.all()
 			return render(request, 'events/event.html', context={'event_list': event_list, 'request':request})
 		else:
+			print(GeoIP2.city('176.59.109.210'))
+
 			city = request.POST.getlist('city[]')
 			theme = request.POST.getlist('theme[]')
 			date_start = request.POST.get('date_start')
