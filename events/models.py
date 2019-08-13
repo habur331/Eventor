@@ -10,8 +10,8 @@ class Event(models.Model):
 	event_name = models.CharField(max_length=100)
 	event_address = models.CharField(max_length=100)
 
-	themes = ['game', 'walk', 'other']
-	cities = ['Kazan', 'Moscow', 'Saint-Petersburg']
+	themes = ['Игра', 'Прогулка', 'Другое']
+	cities = ['Казань', 'Москва', 'Санкт-Петербург']
 
 	def __str__(self):
 		return self.event_text

@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Title</title>
+        <title>Eventor</title>
         {% load static %}
         <link rel="stylesheet" href="{% static 'events/style.css' %}">
         <link rel="stylesheet" href="{% static 'events/bootstrap.css' %}">
@@ -13,31 +13,33 @@
 <body>
 	<div class="main_part">
 		<nav class="navbar navbar-light" style="background-color: #133678; color: white">
-			<a class="ya_debil" href="">
-				<img src="/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+			<a class="title" href="">
+				<img src="" width="30" height="30" class="d-inline-block align-top" alt="">
 				EVENTOR
 			</a>
 			<button class="btn btn-info">+</button>
 		</nav>
-		<div class="row" style="margin: 0px;  height: 92%;">
+		<div class="row" style="margin: 0px;  height: 92%; width:100%;">
 			<div class="col-5"><br>
-				<button class="btn btn-info" style="width: 100%">Поиск</button><br><br>
-				<select class="selectpicker" data-live-search="true" multiple name="city">
+				<button class="btn btn-info" style="width: 100%" id="search_btn">Поиск</button><br><br>
+				<select class="selectpicker" data-live-search="true" multiple title="Выберите город" name="city" id="city">
 					{% for city in cities %}
 						<option value="{{ city }}">{{ city }}</option>
 					{% endfor %}
 				</select><br><br>
-				<select class="selectpicker" data-live-search="true" multiple name="theme">
+				<select class="selectpicker" data-live-search="true" title="Выберите тему" multiple name="theme" id="theme">
 					{% for theme in themes %}
 						<option value="{{ theme }}">{{ theme }}</option>
 					{% endfor %}
 				</select><br><br>
-				<input type="date" class="form-control" name="date_start"><br>
-				<input type="date" class="form-control" name="date_end"><br>
+				<input type="date" class="form-control" name="date_start" id="date_start"><br>
+				<input type="date" class="form-control" name="date_end" id="date_end"><br>
 			</div>
 			<div class="col-7" style="background-color: #ebeff5;" id="events">
+				<br>
 				{% for event in events %}
-					{{ event.event_text }}<br>
+					<a href="#" style="text-decoration:none; color:black; padding:0 1px;">{{ event.event_text }} <br> {{ event.event_address }}</a>
+					<br><br>
 				{% endfor %}
 			</div>
 		</div>
@@ -45,7 +47,7 @@
 	<div class="map_part">
 
 	</div>
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="{% static 'events/bootstrap.js' %}"></script>
 	<script src="{% static 'events/bootstrap-select.js' %}"></script>
@@ -53,6 +55,48 @@
 		$(document).ready(function(){
 		  $('.selectpicker').selectpicker();
 		  });
+	</script>
+
+	<script>
+		function getCookie(name) {
+			var cookieValue = null;
+			if (document.cookie && document.cookie !== '') {
+				var cookies = document.cookie.split(';');
+				for (var i = 0; i < cookies.length; i++) {
+				var cookie = cookies[i].trim();
+				// Does this cookie string begin with the name we want?
+				if (cookie.substring(0, name.length + 1) === (name + '=')) {
+					cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+					break;
+				}
+			}
+		}
+	return cookieValue;
+	}
+	</script>
+
+	<script>
+		$('#search_btn').click(function(){
+		var city = $('#city').val();
+		var theme = $('#theme').val();
+		var date_start = $('#date_start').val();
+		var date_end = $('#date_end').val();
+		var csrftoken = getCookie('csrftoken');
+		$.ajax({
+			url: '/',
+			data: {
+				'city':city,
+				'theme':theme,
+				'data_start':date_start,
+				'date_end':date_end,
+				'csrfmiddlewaretoken':csrftoken,
+			},
+			type:"post",
+			success: function(data) {
+				$('#events').html(data);
+			},
+		});
+		})
 	</script>
 </body>
 </html>

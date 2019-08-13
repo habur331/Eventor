@@ -14,12 +14,12 @@ html, body {
 	height: 100%;
 }
 
-a.ya_debil {
+a.title {
     color: white !important;
     text-decoration: none;
     font-size: 1.6rem;
 }
 
-a.ya_debil:hover {
+a.title:hover {
 	text-decoration: none !important;
 }
