@@ -119,6 +119,7 @@
 			$.ajax({
 				url: '/',
 				data: {
+					'request':'search',
 					'city':city,
 					'theme':theme,
 					'date_start':date_start,
@@ -140,6 +141,7 @@
 			$.ajax({
 				url:'/',
 				data:{
+					'request':'delete',
 					'pk':pk,
 					'csrfmiddlewaretoken':csrftoken,
 				},

@@ -11,29 +11,8 @@ import datetime
 # Create your views here.
 def index(request):
 	if request.POST:
-		print(request.POST)
-		if request.POST.get('event_text'):
-			text = request.POST.get('event_text')
-			city = request.POST.get('event_city')
-			address = request.POST.get('event_address')
-			name = request.POST.get('event_name')
-			theme = request.POST.get('event_name')
-			datetime = request.POST.get('event_datetime')
-			owner = '79534800552'
-
-			new_event = Event.objects.create(event_text=text, event_city=city, event_address=address, event_name=name,
-											 event_theme=theme, event_date=datetime, event_owner=owner)
-			new_event.save()
-			return render(request, 'events/index.html', context={'cities': Event.cities, 'themes': Event.themes,
-																 'events': get_list_or_404(Event.objects.all()),
-																 'form': CreateEventForm,
-																 'request':request})
-		elif request.POST.get('pk'):
-			pk = request.POST.get('pk')
-			Event.objects.filter(pk=pk).delete()
-			event_list = Event.objects.all()
-			return render(request, 'events/event.html', context={'event_list': event_list, 'request':request})
-		else:
+		print('kek', request.POST.get('request'))
+		if request.POST.get('request') == 'search':
 			city = request.POST.getlist('city[]')
 			theme = request.POST.getlist('theme[]')
 			date_start = request.POST.get('date_start')
@@ -49,8 +28,33 @@ def index(request):
 			if date_start:
 				event_list = event_list.filter(event_date__gte=date_start)
 
+			print('kek',event_list)
+
 			return render(request, 'events/event.html', context={'event_list': event_list})
+
+		elif request.POST.get('request') == 'delete':
+			pk = request.POST.get('pk')
+			Event.objects.filter(pk=pk).delete()
+			event_list = Event.objects.all()
+			return render(request, 'events/event.html', context={'event_list': event_list, 'request': request})
+		else:
+			text = request.POST.get('event_text')
+			city = request.POST.get('event_city')
+			address = request.POST.get('event_address')
+			name = request.POST.get('event_name')
+			theme = request.POST.get('event_name')
+			datetime = request.POST.get('event_datetime')
+			owner = '79534800552'
+
+			new_event = Event.objects.create(event_text=text, event_city=city, event_address=address, event_name=name,
+											 event_theme=theme, event_date=datetime, event_owner=owner)
+			new_event.save()
+			return render(request, 'events/index.html', context={'cities': Event.cities, 'themes': Event.themes,
+																 'events': Event.objects.all(),
+																 'form': CreateEventForm,
+																 'request': request})
+
 	return render(request, 'events/index.html', context={'cities': Event.cities, 'themes': Event.themes,
-														 'events': get_list_or_404(Event.objects.all()),
+														 'events': Event.objects.all(),
 														 'form': CreateEventForm,
-														 'request':request})
+														 'request': request})
