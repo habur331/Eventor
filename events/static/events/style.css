@@ -18,7 +18,7 @@ a.title:hover {
 	text-decoration: none !important;
 }
 #map {
-	width: 62%; height: 100%; padding: 0; margin: 0; float: left;
+	width: 62%; height: 100%; padding: 0; margin: 0; float: right;
 }
 a {
 	color: #04b; /* Цвет ссылки */

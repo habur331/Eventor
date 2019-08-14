@@ -34,8 +34,6 @@ def index(request):
 			event_list = Event.objects.all()
 			return render(request, 'events/event.html', context={'event_list': event_list, 'request':request})
 		else:
-			print(GeoIP2.city('176.59.109.210'))
-
 			city = request.POST.getlist('city[]')
 			theme = request.POST.getlist('theme[]')
 			date_start = request.POST.get('date_start')
