@@ -1,0 +1,81 @@
+<br>
+<div>
+	<button class="btn btn-info back"  style="background-color:#edc240; color:#FFFFFF float:left;"><</button>
+	<br><br>
+
+	<p>Название:<br>
+		{{ event.event_name }}</p>
+
+	<p>Описание:<br>
+		{{ event.event_text }}</p>
+
+	<p>Город проведения:<br>
+		{{ event.event_city }}</p>
+
+	<p>Место проведения:<br>
+		{{ event.event_address }}</p>
+
+	<p>Время проведения:<br>
+		{{ event.event_date }}</p>
+
+	<p>Количество записавшихся: {{ event.event_participant }} <br></p>
+
+	<button class="btn btn-info singup" style="background-color:#edc240; width:100%;">Записаться</button>
+
+</div>
+
+<script>
+		function getCookie(name) {
+			var cookieValue = null;
+			if (document.cookie && document.cookie !== '') {
+				var cookies = document.cookie.split(';');
+				for (var i = 0; i < cookies.length; i++) {
+				var cookie = cookies[i].trim();
+				// Does this cookie string begin with the name we want?
+				if (cookie.substring(0, name.length + 1) === (name + '=')) {
+					cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+					break;
+				}
+			}
+		}
+	return cookieValue;
+	}
+</script>
+
+<script>
+		$('.back').click(function(){
+			var request = 'search'
+			var csrftoken = getCookie('csrftoken');
+			$.ajax({
+				url: '/',
+				data: {
+					'request':'search',
+					'csrfmiddlewaretoken':csrftoken,
+				},
+				type:"post",
+				success: function(data) {
+					$('#events').html(data);
+				},
+			});
+		})
+</script>
+
+<script>
+		$('.singup').click(function(){
+			var request = 'singup'
+			var csrftoken = getCookie('csrftoken');
+			$.ajax({
+				url: '/',
+				data: {
+					'request':'search',
+					'csrfmiddlewaretoken':csrftoken,
+				},
+				type:"post",
+				success: function(data) {
+					alert('Вы успешно записались на мероприятие');
+					$('#events').html(data);
+				},
+			});
+		})
+</script>
+

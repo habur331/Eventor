@@ -80,25 +80,13 @@ WSGI_APPLICATION = 'Eventor.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sql7301609',
-        'USER': 'sql7301609',
-        'PASSWORD': '8swRXjLsGN',
-        'HOST': 'sql7.freemysqlhosting.net',
-        'PORT': '',
+        'NAME': 'sql2301987',
+        'USER': 'sql2301987',
+        'PASSWORD': 'kE8*yI7!',
+        'HOST': 'sql2.freemysqlhosting.net',
     }
 }
-"""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'event',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
-}
-"""
+
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 

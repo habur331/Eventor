@@ -1,11 +1,23 @@
 <br>
 {% for event in event_list %}
 	<div style="background-color:#f5f5f5; padding:8px">
-		{% if request.user.is_superuser%}<button style="float:right; background-color: #edc240; !important; border:0px!important;" class="btn btn-info delete" id="{{ event.pk }}" title="Удалить событие">x</button>{% endif %}
-		<a href="" style=";text-decoration:none; color:black; padding:0 1px;" title="Подробная информация">{{ event.event_name }} <br> {{ event.event_text }} <br> {{ event.event_address }}<br> {{ event.event_date }}</a>
+		<div class="dropdown">
+		  <button class="btn btn-secondary dropdown-toggle" style="float:right; background-color: #edc240; !important; border:0px!important;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+		  </button>
+		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			  <a class="dropdown-item info" style=" !important; border:0px!important; width:100%; padding 0 !important" id="{{ event.pk }}">Подробная информация</a>
+			  {% if request.user.is_superuser%}<a class="dropdown-item edit" style=" !important; border:0px!important;  width:100%; padding 0 !important" id="{{ event.pk }}" >Изменить событие</a>{% endif %}
+			  <div class="dropdown-divider"></div>
+			  {% if request.user.is_superuser%} <a class="dropdown-item delete" style=" !important; border:0px!important;  width:100%;" id="{{ event.pk }}">Удалить событие</a>{% endif %}
+		  </div>
+
+		</div>
+		<div class="plug">{{ event.event_name }} <br> {{ event.event_text }} <br> {{ event.event_address }}<br> {{ event.event_date }}</div>
 	</div>
-	<br>
+<br>
 {% endfor %}
+
 <script>
 		$('.delete').click(function(){
 			var pk = $(this).attr('id');
@@ -24,3 +36,40 @@
 			});
 		})
 </script>
+<script>
+		$('.info').click(function(){
+			var pk = $(this).attr('id');
+			var csrftoken = getCookie('csrftoken');
+			$.ajax({
+				url:'/',
+				data:{
+					'request':'info',
+					'pk':pk,
+					'csrfmiddlewaretoken':csrftoken,
+				},
+				type:"post",
+				success: function(data) {
+					$('#events').html(data);
+				},
+			});
+		})
+	</script>
+
+	<script>
+		$('.edit').click(function(){
+			var pk = $(this).attr('id');
+			var csrftoken = getCookie('csrftoken');
+			$.ajax({
+				url:'/',
+				data:{
+					'request':'edit',
+					'pk':pk,
+					'csrfmiddlewaretoken':csrftoken,
+				},
+				type:"post",
+				success: function(data) {
+					$('#events').html(data);
+				},
+			});
+		})
+	</script>

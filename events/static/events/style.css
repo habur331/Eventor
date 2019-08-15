@@ -21,12 +21,21 @@ a.title:hover {
 	width: 62%; height: 100%; padding: 0; margin: 0; float: right;
 }
 a {
-	color: #04b; /* Цвет ссылки */
+	color: #000000 !important; /* Цвет ссылки */
 	text-decoration: none; /* Убираем подчеркивание у ссылок */
 }
 a:visited {
-	color: #04b; /* Цвет посещённой ссылки */
+	color: #000000 !important; /* Цвет посещённой ссылки */
 }
 a:hover {
-	color: #f50000; /* Цвет ссылки при наведении на нее курсора мыши */
+	color: #000000 !important; /* Цвет ссылки при наведении на нее курсора мыши */
 }
+
+.plug {
+	padding: 0 10%;
+}
+
+.dp_menu:hover {
+	cursor:pointer;
+}
+
