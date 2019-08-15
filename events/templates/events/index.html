@@ -136,6 +136,7 @@
 		$('.delete').click(function(){
 			var pk = $(this).attr('id');
 			var csrftoken = getCookie('csrftoken');
+			alert(pk);
 			$.ajax({
 				url:'/',
 				data:{

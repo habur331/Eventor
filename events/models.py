@@ -210,7 +210,7 @@ class Event(models.Model):
 		return self.event_text
 
 	def save(self, *args, **kwargs):
-		if not self.pk:
+		if not self.pk and self.event_city :
 			j = ''
 			address = self.event_city + ' ' + self.event_address
 			request = requests.get(
