@@ -5,8 +5,6 @@ import json
 from django.http import HttpResponse
 from django.utils import timezone
 
-Counter = 100000
-
 
 class Event(models.Model):
 	event_text = models.CharField(max_length=100, default='This is test events')
@@ -24,6 +22,8 @@ class Event(models.Model):
 		request = requests.get(
 			"https://geocode-maps.yandex.ru/1.x?geocode={}&apikey=bbbd2d6b-5a52-418a-9cbb-1a4af3d8c88f&format=json".format(
 				address))
+		request.encoding = 'utf-8'
+		j = json.loads(request.text)
 		request.encoding = 'utf-8'
 		N, S = (j['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['boundedBy']['Envelope'][
 			'lowerCorner']).split(' ')
@@ -44,8 +44,7 @@ class Event(models.Model):
 		event = Event.objects.all()
 		j = ['features']
 		for e in event:
-			j['features'].append({"type": "Feature", "id": e.event_pk, "geometry": {"type": "Point", "coordinates": [
-				e.event_coordinates1, e.event_coordinates2]}, "properties": {"hintContent": e.event_name}})
+			j['features'].append({"type": "Feature", "id": e.event_pk, "geometry": {"type": "Point", "coordinates": [int(e.event_coordinates1), int(e.event_coordinates2)]}, "properties": {"hintContent": e.event_name}})
 		with open('events/static/events/data.json', 'w') as file:
 			json.dump(j, file)
 
@@ -240,3 +239,4 @@ class Event(models.Model):
 
 	def __str__(self):
 		return self.event_text
+
