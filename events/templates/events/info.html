@@ -1,3 +1,6 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'events/style.css' %}">
+
 <br>
 <div>
 	<button class="btn btn-info back"  style="background-color:#edc240; color:#FFFFFF float:left;"><</button>
@@ -20,7 +23,7 @@
 
 	<p>Количество записавшихся: {{ event.event_participant }} <br></p>
 
-	<button class="btn btn-info singup" style="background-color:#edc240; width:100%;">Записаться</button>
+	<button class="btn btn-info singup" id="{{ event.pk }}" style="background-color:#edc240; width:100%;">Записаться</button>
 
 </div>
 
@@ -44,11 +47,12 @@
 
 <script>
 		$('.back').click(function(){
-			var request = 'search'
+			var pk = $(this).attr('id');
 			var csrftoken = getCookie('csrftoken');
 			$.ajax({
 				url: '/',
 				data: {
+					'pk':pk,
 					'request':'search',
 					'csrfmiddlewaretoken':csrftoken,
 				},
@@ -62,12 +66,13 @@
 
 <script>
 		$('.singup').click(function(){
-			var request = 'singup'
+			var pk = $(this).attr('id');
 			var csrftoken = getCookie('csrftoken');
 			$.ajax({
 				url: '/',
 				data: {
-					'request':'search',
+					'pk':pk,
+					'request':'singup',
 					'csrfmiddlewaretoken':csrftoken,
 				},
 				type:"post",

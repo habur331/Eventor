@@ -12,7 +12,7 @@ class Event(models.Model):
 	event_city = models.CharField(max_length=30, default='Kazan')
 	event_name = models.CharField(max_length=100, default='Test')
 	event_address = models.CharField(max_length=100, default='It-lyceum')
-	event_participant = models.CharField(max_length=100, default='')
+	event_participant = models.IntegerField(default=0)
 	event_coordinates1 = models.CharField(max_length=100, default='0')
 	event_coordinates2 = models.CharField(max_length=100, default='0')
 
@@ -53,11 +53,6 @@ class Event(models.Model):
 									  "properties": {"hintContent": e.event_name}})
 		with open('events/static/events/data.json', 'w') as file:
 			json.dump(j, file)
-
-	def save(self):
-		self.save()
-		self.create_address()
-		Event.create_json()
 
 	themes = ['Игра', 'Прогулка', 'Другое']
 	cities = ['Абаза', 'Абакан', 'Абвиль', 'Абдулино', 'Абиджан', 'Абинск', 'Абу-Даби', 'Абуджа', 'Авиньон', 'Агидель',
