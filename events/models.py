@@ -40,11 +40,17 @@ class Event(models.Model):
 		self.event_coordinates1 = S
 		self.event_coordinates2 = N
 
-	def create_json(self):
+	@staticmethod
+	def create_json():
 		event = Event.objects.all()
-		j = ['features']
-		for e in event:
-			j['features'].append({"type": "Feature", "id": e.event_pk, "geometry": {"type": "Point", "coordinates": [int(e.event_coordinates1), int(e.event_coordinates2)]}, "properties": {"hintContent": e.event_name}})
+		with open('events/static/events/data.json', 'r') as file:
+			file_text = file.read()
+			j = json.loads(file_text)
+			j['features'] = []
+			for e in event:
+				j['features'].append({"type": "Feature", "id": e.pk, "geometry": {"type": "Point", "coordinates": [
+					float(e.event_coordinates1), float(e.event_coordinates2)]},
+									  "properties": {"hintContent": e.event_name}})
 		with open('events/static/events/data.json', 'w') as file:
 			json.dump(j, file)
 

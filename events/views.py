@@ -5,6 +5,11 @@ import json
 from .forms import CreateEventForm
 from .models import Event
 import datetime
+import requests
+import json
+
+
+
 
 
 # Create your views here.
@@ -27,7 +32,7 @@ def index(request):
 				event_list = event_list.filter(event_date__gte=date_start)
 
 			print(theme)
-
+			Event.create_json()
 			return render(request, 'events/event.html', context={'event_list': event_list, 'request': request})
 
 		elif request.POST.get('request') == 'delete':
@@ -35,6 +40,7 @@ def index(request):
 			Event.objects.filter(pk=pk).delete()
 			event_list = Event.objects.all()
 			print('ok')
+			Event.create_json()
 			return render(request, 'events/event.html', context={'event_list': event_list, 'request': request})
 		else:
 			text = request.POST.get('event_text')
@@ -48,12 +54,16 @@ def index(request):
 			new_event = Event.objects.create(event_text=text, event_city=city, event_address=address, event_name=name,
 											 event_theme=theme, event_date=datetime, event_owner=owner)
 			new_event.save()
+			new_event.create_address()
+			Event.create_json()
 			redirect('events/index.html', context={'cities': Event.cities, 'themes': Event.themes,
 																 'events': Event.objects.all(),
 																 'form': CreateEventForm,
 																 'request': request})
 
+	event_list = Event.objects.all()
+	Event.create_json()
 	return render(request, 'events/index.html', context={'cities': Event.cities, 'themes': Event.themes,
-														 'events': Event.objects.all(),
+														 'events':event_list ,
 														 'form': CreateEventForm,
 														 'request': request})
