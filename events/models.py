@@ -37,15 +37,15 @@ class Event(models.Model):
 		S += S1
 		N /= 2
 		S /= 2
-		event.event_coordinates1 = S
-		event.event_coordinates2 = N
-
+		self.event_coordinates1 = S
+		self.event_coordinates2 = N
 
 	def create_json(self):
 		event = Event.objects.all()
 		j = ['features']
 		for e in event:
-			j['features'].append({"type": "Feature", "id": e.event_pk, "geometry": {"type": "Point", "coordinates": [e.event_coordinates1, e.event_coordinates2]}, "properties": {"hintContent": e.event_name}})
+			j['features'].append({"type": "Feature", "id": e.event_pk, "geometry": {"type": "Point", "coordinates": [
+				e.event_coordinates1, e.event_coordinates2]}, "properties": {"hintContent": e.event_name}})
 		with open('events/static/events/data.json', 'w') as file:
 			json.dump(j, file)
 
@@ -240,4 +240,3 @@ class Event(models.Model):
 
 	def __str__(self):
 		return self.event_text
-
