@@ -16,6 +16,38 @@ class Event(models.Model):
 	event_city = models.CharField(max_length=30, default='Kazan')
 	event_name = models.CharField(max_length=100, default='Test')
 	event_address = models.CharField(max_length=100, default='It-lyceum')
+	event_coordinates1 = models.CharField(max_length=100, default='0')
+	event_coordinates2 = models.CharField(max_length=100, default='0')
+
+	def create_address(self):
+		address = self.event_city + ' ' + self.event_address
+		request = requests.get(
+			"https://geocode-maps.yandex.ru/1.x?geocode={}&apikey=bbbd2d6b-5a52-418a-9cbb-1a4af3d8c88f&format=json".format(
+				address))
+		request.encoding = 'utf-8'
+		N, S = (j['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['boundedBy']['Envelope'][
+			'lowerCorner']).split(' ')
+		N = float(N)
+		S = float(S)
+		N1, S1 = (j['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['boundedBy']['Envelope'][
+			'upperCorner']).split(' ')
+		N1 = float(N1)
+		S1 = float(S1)
+		N += N1
+		S += S1
+		N /= 2
+		S /= 2
+		event.event_coordinates1 = S
+		event.event_coordinates2 = N
+
+
+	def create_json(self):
+		event = Event.objects.all()
+		j = ['features']
+		for e in event:
+			j['features'].append({"type": "Feature", "id": e.event_pk, "geometry": {"type": "Point", "coordinates": [e.event_coordinates1, e.event_coordinates2]}, "properties": {"hintContent": e.event_name}})
+		with open('events/static/events/data.json', 'w') as file:
+			json.dump(j, file)
 
 	themes = ['Игра', 'Прогулка', 'Другое']
 	cities = ['Абаза', 'Абакан', 'Абвиль', 'Абдулино', 'Абиджан', 'Абинск', 'Абу-Даби', 'Абуджа', 'Авиньон', 'Агидель',
@@ -209,37 +241,3 @@ class Event(models.Model):
 	def __str__(self):
 		return self.event_text
 
-	def save(self, *args, **kwargs):
-		if not self.pk and self.event_city :
-			j = ''
-			address = self.event_city + ' ' + self.event_address
-			request = requests.get(
-				"https://geocode-maps.yandex.ru/1.x?geocode={}&apikey=bbbd2d6b-5a52-418a-9cbb-1a4af3d8c88f&format=json".format(
-					address))
-			request.encoding = 'utf-8'
-			j = json.loads(request.text)
-			N, S = (j['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['boundedBy']['Envelope'][
-				'lowerCorner']).split(' ')
-			N = float(N)
-			S = float(S)
-			N1, S1 = (j['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['boundedBy']['Envelope'][
-				'upperCorner']).split(' ')
-			N1 = float(N1)
-			S1 = float(S1)
-			N += N1
-			S += S1
-			N /= 2
-			S /= 2
-			global Counter
-			Counter += 1
-			with open('events/static/events/data.json', 'r') as file:
-				file_text = file.read()
-				j = json.loads(file_text)
-				j['features'].append(
-					{"type": "Feature", "id": Counter, "geometry": {"type": "Point", "coordinates": [S, N]},
-					 "properties": {
-						 "balloonContentHeader": "<font size=3><b><a target=\'_blank\' href=\'https://yandex.ru\'>www.vk.com</a></b></font>",
-						 "hintContent": self.event_name}})
-			with open('events/static/events/data.json', 'w') as file:
-				j = json.dump(j, file)
-		super(Event, self).save(*args, **kwargs)
