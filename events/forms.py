@@ -24,7 +24,7 @@ class CreateEventForm(forms.Form):
 	event_owner = forms.CharField(label="", initial='+79534800552')
 	event_datetime = forms.DateTimeField(widget=DateInput(attrs={'type': 'datetime-local'}),
 										 initial=datetime.date.today(), localize=True)
-	event_theme = forms.ChoiceField(label="Тема", choices=create_choices(Event.themes))
+	event_theme = forms.ChoiceField(label="Направление", choices=create_choices(Event.themes))
 	event_city = forms.ChoiceField(label="Город", choices=create_choices(Event.cities))
 	event_name = forms.CharField(label="Название")
 	event_address = forms.CharField(label="Адрес")

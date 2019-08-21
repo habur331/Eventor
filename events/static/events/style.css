@@ -24,11 +24,11 @@ a {
 	color: #000000 !important; /* Цвет ссылки */
 	text-decoration: none; /* Убираем подчеркивание у ссылок */
 }
-a:visited {
-	color: #000000 !important; /* Цвет посещённой ссылки */
+.title:visited {
+	color: #FFFFFF !important; /* Цвет посещённой ссылки */
 }
-a:hover {
-	color: #000000 !important; /* Цвет ссылки при наведении на нее курсора мыши */
+.title:hover {
+	color: #FFFFFF !important; /* Цвет ссылки при наведении на нее курсора мыши */
 }
 
 .plug {
@@ -37,5 +37,11 @@ a:hover {
 
 .dp_menu:hover {
 	cursor:pointer;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #f8f9fa; !important
 }
 

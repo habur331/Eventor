@@ -29,8 +29,8 @@ def index(request):
 				event_list = event_list.filter(event_date__gte=date_start)
 
 			Event.create_json()
-			return render(request, 'events/event.html', context={'event_list': event_list, 'request': request})
-
+			return render(request, 'events/event.html',
+						  context={'event_list': event_list, 'request': request})
 
 		elif request.POST.get('request') == 'info':
 			pk = request.POST.get('pk')
@@ -49,10 +49,8 @@ def index(request):
 			event_list = Event.objects.all()
 			print(event_list)
 			Event.create_json()
-			return redirect('events/index.html', context={'cities': Event.cities, 'themes': Event.themes,
-														  'event_list': Event.objects.all(),
-														  'form': CreateEventForm,
-														  'request': request})
+			return render(request, 'events/event.html',
+						  context={'event_list': Event.objects.all(), 'request': request})
 
 		elif request.POST.get('request') == 'singup':
 			pk = request.POST.get('pk')
@@ -75,14 +73,15 @@ def index(request):
 
 			new_event = Event.objects.create(event_text=text, event_city=city, event_address=address, event_name=name,
 											 event_theme=theme, event_date=datetime, event_owner=owner)
+
 			new_event.save()
 			new_event.create_address()
 			Event.create_json()
 
-			redirect('events/index.html', context={'cities': Event.cities, 'themes': Event.themes,
-												   'event_list': Event.objects.all(),
-												   'form': CreateEventForm,
-												   'request': request})
+			return redirect('/', context={'cities': Event.cities, 'themes': Event.themes,
+										  'event_list': Event.objects.all(),
+										  'form': CreateEventForm,
+										  'request': request})
 
 	event_list = Event.objects.all()
 	Event.create_json()

@@ -57,6 +57,9 @@
 					'csrfmiddlewaretoken':csrftoken,
 				},
 				type:"post",
+				beforeSend: function(){
+					$('#events').load('{% static 'events/loading.html' %}');
+				},
 				success: function(data) {
 					$('#events').html(data);
 				},
@@ -76,6 +79,9 @@
 					'csrfmiddlewaretoken':csrftoken,
 				},
 				type:"post",
+				beforeSend: function(){
+					$('#events').load('{% static 'events/loading.html' %}');
+				},
 				success: function(data) {
 					alert('Вы успешно записались на мероприятие');
 					$('#events').html(data);

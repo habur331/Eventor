@@ -2,20 +2,21 @@
 <html lang="ru">
     <head>
         <meta charset="UTF-8">
-        <title>Eventor</title>
+        <title>Cultlive</title>
         {% load static %}
 	    <link rel="shortcut icon" href="{% static 'events/eventor_logo.png' %}" type="image/png">
-        <link rel="stylesheet" href="{% static 'events/style.css' %}">
         <link rel="stylesheet" href="{% static 'events/bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'events/bootstrap-select.css' %}">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+	    <link rel="stylesheet" href="{% static 'events/style.css' %}">
+	    <link rel="stylesheet" href="{% static 'events/loading.css' %}">
     </head>
 <body>
 	<div class="main_part">
-		<nav class="navbar navbar-light" style="background-color: #7ea15f; color: white">
+		<nav class="navbar navbar-light" style="background-color: #7ea15f; color: white!important;">
 			<a class="title" href="">
-				<img src="{% static 'events/eventor_logo.png' %}" width="40" height="40" class="d-inline-block align-top" alt="">
-				VENTOR
+				<img src="{% static 'events/eventor_logo.png' %}" width="40" height="40" class="d-inline-block align-top" style="float:left;" alt="">
+				<div style="letter-spacing: 2px; float:left; margin: 0 2px;">ultlive</div>
 			</a>
 			<button class="btn btn-info btn-lg" title="Добавить событие" id="create_btn" style="background-color: #edc240; !important; border:0px!important;" data-toggle="modal" data-target="#create-event-dialog">+</button>
 		</nav>
@@ -27,7 +28,7 @@
 						<option value="{{ city }}">{{ city }}</option>
 					{% endfor %}
 				</select><br><br>
-				<select class="selectpicker" data-live-search="true" title="Выберите тему" multiple name="theme" id="theme">
+				<select class="selectpicker" data-live-search="true" title="Выберите направление" multiple name="theme" id="theme">
 					{% for theme in themes %}
 						<option value="{{ theme }}">{{ theme }}</option>
 					{% endfor %}
@@ -40,13 +41,12 @@
 				{% for event in event_list %}
 					<div style="background-color:#f5f5f5; padding:8px">
 						<div class="dropdown">
-						  <button class="btn btn-secondary dropdown-toggle" style="float:right; background-color: #edc240; !important; border:0px!important;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						  </button>
+						  <button class="btn btn-secondary dropdown-toggle" style="float:right; background-color: #edc240; !important; border:0px!important; margin:3px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 							  <a class="dropdown-item info dp_menu" style=" !important; border:0px!important; width:100%; padding 0 !important" id="{{ event.pk }}">Подробная информация</a>
-							  {% if request.user.is_superuser%}<a class="dropdown-item edit dp_menu" style=" !important; border:0px!important;  width:100%; padding 0 !important" id="{{ event.pk }}" >Изменить событие</a>{% endif %}
+							  {% if request.user.is_superuser%}<a class="dropdown-item edit dp_menu" style=" !important; border:0px!important;  width:100%; padding 0 !important" id="{{ event.pk }}" >Изменить событие</a>
 							  <div class="dropdown-divider"></div>
-							  {% if request.user.is_superuser%} <a class="dropdown-item delete dp_menu" style=" !important; border:0px!important;  width:100%;" id="{{ event.pk }}">Удалить событие</a>{% endif %}
+							   <a class="dropdown-item delete dp_menu" style=" !important; border:0px!important;  width:100%;" id="{{ event.pk }}">Удалить событие</a>{% endif %}
 						  </div>
 
 						</div>
@@ -135,6 +135,9 @@
 					'csrfmiddlewaretoken':csrftoken,
 				},
 				type:"post",
+				beforeSend: function(){
+					$('#events').load('{% static 'events/loading.html' %}');
+				},
 				success: function(data) {
 					$('#events').html(data);
 				},
@@ -154,6 +157,9 @@
 					'csrfmiddlewaretoken':csrftoken,
 				},
 				type:"post",
+				beforeSend: function(){
+					$('#events').load('{% static 'events/loading.html' %}');
+				},
 				success: function(data) {
 					$('#events').html(data);
 				},
@@ -192,6 +198,9 @@
 					'csrfmiddlewaretoken':csrftoken,
 				},
 				type:"post",
+				beforeSend: function(){
+					$('#events').load('{% static 'events/loading.html' %}');
+				},
 				success: function(data) {
 					$('#events').html(data);
 				},
