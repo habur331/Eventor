@@ -5,7 +5,7 @@ from django.utils import timezone
 
 
 class Event(models.Model):
-	event_text = models.CharField(max_length=100, default='This is test events')
+	event_text = models.CharField(max_length=1000, default='This is test events')
 	event_owner = models.CharField(max_length=100, default='Test owner')
 	event_date = models.DateTimeField('Event date', default=timezone.now())
 	event_theme = models.CharField(max_length=20, default='Test theme')
